@@ -9,6 +9,17 @@ services:
         as: 80
         to:
           - global: true
+  blurt:
+    image: faddat/blurtrpc-amd64
+    expose:
+      - port: 8090
+        as: 8090
+        to:
+          - global: true
+      - port: 8091
+        as: 8091
+        to:
+          - global: true
 
 profiles:
   compute:
@@ -20,6 +31,14 @@ profiles:
           size: 1024Mi
         storage:
           size: 1024Mi
+    blurt:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 1024Mi
+        storage:
+          size: 60Gi
   placement:
     westcoast:
       attributes:
@@ -37,3 +56,7 @@ deployment:
     westcoast:
       profile: web
       count: 1
+  blurt:
+    westcoast:
+      profile: blurt
+      count: 4
